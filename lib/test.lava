@@ -1,4 +1,3 @@
 (use 'core')
-{
-'println10000' (/ (for /println 10000))
-}
+
+(println (debug true (time)))

@@ -30,15 +30,21 @@
 				(java.lang.String.valueOf (as 'java.lang.Object' item)))))
 	(.toString sb))
 
+(/not:boolean
+	(if boolean
+		false
+		true))
 
 (/time:sub:*args
-	(def time1 (java.lang.System.currentTimeMillis))
+	(if (not (def? sub))
+		(return (java.lang.System.currentTimeMillis)))
+	(def time1 (time))
 	(def value)
 	(if (def? args)
 		(share value (sub *args))
 		(share value (sub)))
 	
-	(def time2 (java.lang.System.currentTimeMillis))
+	(def time2 (time))
 	(println (cal `{time2} - {time1}`))
 	
 	value
