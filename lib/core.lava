@@ -46,13 +46,39 @@
 
 
 (/comp:a:b
-	(def res (cal '{a} - {b}'))
-	(? (.subStr res 0 1)
+	(def res (str (cal `{a} - {b}`)))
+	(? (.substring res 0i 1i)
 		"-" -1
 		"0" 0
 		1))
 
+(/>:a:b
+	(? (comp a b)
+		1 true
+		false))
+		
+(/=:a:b
+	(? (comp a b)
+		0 true
+		false))		
 
+(/<:a:b
+	(? (comp a b)
+		-1 true
+		false))
+	
+(/<=:a:b
+	(? (comp a b)
+		-1 true
+		0 true
+		false))
+		
+(/>=:a:b
+	(? (comp a b)
+		1 true
+		0 true
+		false))
+	
 (export
 /comp
 /println
@@ -63,7 +89,13 @@ true
 false
 /join
 /print
+/>
+/<
+/=
+/>=
+/<=
 )
+
 
 
 
