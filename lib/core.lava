@@ -44,7 +44,17 @@
 	value
 )
 
+
+(/comp:a:b
+	(def res (cal '{a} - {b}'))
+	(? (.subStr res 0 1)
+		"-" -1
+		"0" 0
+		1))
+
+
 (export
+/comp
 /println
 /time
 /cal
