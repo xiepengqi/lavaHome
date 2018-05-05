@@ -1,0 +1,68 @@
+(def true (java.lang.Boolean.parseBoolean "true"))
+(def false (java.lang.Boolean.parseBoolean "false"))
+
+(def -se 
+	(.getEngineByName
+		 (new 'javax.script.ScriptEngineManager') "JavaScript"))
+		 
+(/cal:express 
+	(.eval -se express))
+
+(def -out (. 'java.lang.System.out'))
+
+(/println:*strs 
+	(.println -out (str *strs)))
+	
+(/print:*strs 
+	(.println -out (str *strs)))
+
+(/str:*objs
+	(join objs))
+
+(/join:objs:obj
+	(def sb (new 'java.lang.StringBuilder'))
+	(foreach objs
+		(/:item
+			(if (and (def? obj) (? (.length sb) 0i false true))
+				(.append sb	
+					(java.lang.String.valueOf (as 'java.lang.Object' obj))))
+			(.append sb 
+				(java.lang.String.valueOf (as 'java.lang.Object' item)))))
+	(.toString sb))
+
+
+(/time:sub:*args
+	(def time1 (java.lang.System.currentTimeMillis))
+	(def value)
+	(if (def? args)
+		(share value (sub *args))
+		(share value (sub)))
+	
+	(def time2 (java.lang.System.currentTimeMillis))
+	(println (cal `{time2} - {time1}`))
+	
+	value
+)
+
+(export
+/println
+/time
+/cal
+/str
+true
+false
+/join
+/print
+)
+
+
+
+
+
+
+
+
+
+
+
+
