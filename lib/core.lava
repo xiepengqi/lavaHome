@@ -1,24 +1,55 @@
 (def true (java.lang.Boolean.parseBoolean "true"))
 (def false (java.lang.Boolean.parseBoolean "false"))
+(def newLine 
+'
+'
+)
+
+(def doc (getDoc))
 
 (def -se 
 	(.getEngineByName
 		 (new 'javax.script.ScriptEngineManager') "JavaScript"))
-		 
+
+(doc 
 (/cal:express 
 	(.eval -se express))
 
+`(cal 1+2+4)
+7
+`)		 
+
+
 (def -out (. 'java.lang.System.out'))
 
+(doc
 (/println:*strs 
 	(.println -out (str *strs)))
 	
+`(println 1 2 'str')
+12str\n
+`
+)
+	
+(doc
 (/print:*strs 
 	(.println -out (str *strs)))
 
+`(print 1 2 'str')
+12str
+`
+)
+
+(doc
 (/str:*objs
 	(join objs))
+	
+`(str 1 'str')
+1str
+`
+)
 
+(doc
 (/join:objs:obj
 	(def sb (new 'java.lang.StringBuilder'))
 	(foreach objs
@@ -29,6 +60,11 @@
 			(.append sb 
 				(java.lang.String.valueOf (as 'java.lang.Object' item)))))
 	(.toString sb))
+
+'(join [1 2 3] "+")
+1+2+3
+'
+)
 
 (/not:boolean
 	(if boolean
@@ -85,7 +121,25 @@
 		0 true
 		false))
 	
+(/asObj:obj
+	(as 'java.lang.Object' obj))	
+
+
+(/getDoc
+	(def docMap {})
+	(/doc:key:*value
+		(if (def? key)
+			(if (def? value)
+				(.put docMap (asObj key)
+					(asObj (str key newLine (join value newLine))))
+				(.get docMap (asObj key)))
+			(.keySet docMap))))
+
+	
+	
 (export
+/asObj
+/getDoc
 /comp
 /println
 /time
@@ -100,10 +154,9 @@ false
 /=
 />=
 /<=
+newLine
+doc
 )
-
-
-
 
 
 
