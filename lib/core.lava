@@ -1,5 +1,9 @@
-(def true (java.lang.Boolean.parseBoolean "true"))
-(def false (java.lang.Boolean.parseBoolean "false"))
+(def true
+    (. 'java.lang.Boolean.TRUE'))
+(def false
+    (. 'java.lang.Boolean.FALSE'))
+(def null)
+(def void (type null))
 (def newLine 
 '
 '
@@ -124,6 +128,8 @@
 (/asObj:obj
 	(as 'java.lang.Object' obj))	
 
+(/exit:status
+    (java.lang.System.exit status))
 
 (/getDoc
 	(def docMap {})
@@ -134,27 +140,165 @@
 					(asObj (str key newLine (join value newLine))))
 				(.get docMap (asObj key)))
 			(.keySet docMap))))
-	
-	
+
+
+(/inf:obj:className
+    'like java keyword instanceof
+
+    (inf #anyObjecct# #a String of class full name#)
+    return Boolean
+
+    '
+    (ext.fn.Inf.inf (as 'java.lang.Object' obj) (as 'java.lang.Object' className)))
+
+
+(/getClipboardText
+    "获取系统剪贴板内容"
+    (ext.fn.ClipboardText.getSysClipboardText))
+(/setClipboardText
+       "设置系统剪贴板内容"
+       (ext.fn.ClipboardText.setSysClipboardText $0))
+
+(/eq
+    (as 'java.lang.Object' $0 $1)
+    (.equals $0 $1))
+
+(/boolean
+    (if (def? $0)
+        (if (share? $0 null)
+            false
+            (if (inf $0 'java.lang.String')
+                (do
+                    (as 'java.lang.String' $0)
+                    (if (> (.length $0) 0)
+                        true
+                        false))
+                (if (inf $0 'java.util.Collection')
+                    (do
+                        (as 'java.util.Collection' $0)
+                        (if (> (.size $0) 0)
+                             true
+                             false))
+                    (if (inf $0 'java.util.Map')
+                        (do
+                             (as 'java.util.Map' $0)
+                              (if (> (.size $0) 0)
+                                    true
+                                    false))
+                        (if (inf $0 'java.lang.Boolean')
+                            $0
+                            true)))))
+        false))
+
+(/len
+    (if (not (def? $0)) (throw (newRuntimeException "can not get len from undefined")))
+    (if (inf $0 'java.lang.String')
+        (do
+            (as 'java.lang.String' $0)
+            (str (.length $0)))
+        (if (inf $0 'java.util.Collection')
+            (do
+                (as 'java.util.Collection' $0)
+                (str (.size $0)))
+            (if (inf $0 'java.util.Map')
+                (do
+                     (as 'java.util.Map' $0)
+                     (str (.size $0)))
+                (throw (newRuntimeException "can not get len from this object"))))))
+
+(/do $-1)
+
+(/newStrBuilder
+    (if (def? $0)
+        (new 'java.lang.StringBuilder' $0)
+        (new 'java.lang.StringBuilder')))
+
+(/newRuntimeException
+    (if (def? $0)
+        (new 'java.lang.RuntimeException' $0)
+        (new 'java.lang.RuntimeException')))
+
+(/int
+    (if (inf $0 'java.lang.String')
+        (java.lang.Integer.parseInt (as $0))
+        $0))
+
+(/subList
+    (.subList $0 $1 $2))
+
+(/sort:arr
+    (if (not (def? arr))
+        (return))
+    (for /doI 0 (- (len arr) 2))
+    (/doI:i
+        (for /doJ 0 (- (len arr) (+ i 2)))
+        (/doJ:j
+            (if (> (get arr j) (get arr (+ j 1)))
+                (do
+                    (def temp (get arr j))
+                    (set arr j (get arr (+ j 1)))
+                    (set arr (+ j 1) temp)))))
+    arr)
+
+(/get
+    (if (def? $1)
+        (if (inf $0 "java.util.Map")
+            (.get $0 (as "java.lang.Object" $1))
+            (if (inf $0 "java.util.List")
+                (.get $0 (int $1))))))
+
+(/set
+    (if (< (len $args) 3)
+        (throw (newRuntimeException "set need at least two args")))
+    (if (inf $0 "java.util.List")
+        (.set $0 (int $1) $2)))
+
+(/--
+    (ext.fn.Math.sub $0 $1))
+(/-+
+    (ext.fn.Math.add $0 $1))
+(/-*
+    (ext.fn.Math.multiply $0 $1))
+(/-~
+    (ext.fn.Math.divide $0 $1))
+
+(/-doMath
+     (if (not (def? $0))
+         (return 0))
+     (if (not (boolean $1))
+         (return 0))
+     (if (< (len $1) 2)
+        (return (get $1 0i)))
+     (def op $0)
+     (def result (get $1 0i))
+     (foreach (subList $1 1i (int (len $1)))
+         /sum)
+     (/sum
+         (share result (op (as result) $0)))
+     result)
+
+(/-
+   (-doMath /-- $args))
+(/+
+   (-doMath /-+ $args))
+(/*
+   (-doMath /-* $args))
+(/~
+   (-doMath /-~ $args))
+
+
 (export
-/asObj
-/getDoc
-/comp
-/println
-/time
-/cal
-/str
-true
-false
-/join
-/print
-/>
-/<
-/=
-/>=
-/<=
-newLine
+/len  /sort /boolean
+/newStrBuilder /newRuntimeException
+/eq /boolean
+/getClipboardText  /setClipboardText
+/exit /inf /asObj
+/getDoc /comp /println /time /cal /str
+true false
+/join /print
+/> /< /= />= /<= newLine
 doc
+
 )
 
 
