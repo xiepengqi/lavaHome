@@ -1,13 +1,4 @@
-(def true
-    (. 'java.lang.Boolean.TRUE'))
-(def false
-    (. 'java.lang.Boolean.FALSE'))
-(def null)
-(def void (type null))
-(def newLine 
-'
-'
-)
+(use 'core.const')
 
 (def doc (getDoc))
 
@@ -24,7 +15,7 @@
 `)		 
 
 
-(def -out (. 'java.lang.System.out'))
+(def -out (. (str System '.out')))
 
 (doc
 (/println:*strs 
@@ -55,14 +46,14 @@
 
 (doc
 (/join:objs:obj
-	(def sb (new 'java.lang.StringBuilder'))
+	(def sb (new StringBuilder))
 	(foreach objs
 		(/:item
 			(if (and (def? obj) (? (.length sb) 0i false true))
 				(.append sb	
-					(java.lang.String.valueOf (as 'java.lang.Object' obj))))
+					(java.lang.String.valueOf (as Object obj))))
 			(.append sb 
-				(java.lang.String.valueOf (as 'java.lang.Object' item)))))
+				(java.lang.String.valueOf (as Object item)))))
 	(.toString sb))
 
 '(join [1 2 3] "+")
@@ -163,7 +154,7 @@
     (as 'java.lang.Object' $0 $1)
     (.equals $0 $1))
 
-(/boolean
+(/bl
     (if (def? $0)
         (if (share? $0 null)
             false
@@ -218,11 +209,14 @@
         (new 'java.lang.RuntimeException' $0)
         (new 'java.lang.RuntimeException')))
 
-(/int
+(/parseInt
     (if (inf $0 'java.lang.String')
         (java.lang.Integer.parseInt (as $0))
         $0))
 
+(/asInt:arg
+	(as int arg))		
+		
 (/subList
     (.subList $0 $1 $2))
 
@@ -245,13 +239,13 @@
         (if (inf $0 "java.util.Map")
             (.get $0 (as "java.lang.Object" $1))
             (if (inf $0 "java.util.List")
-                (.get $0 (int $1))))))
+                (.get $0 (parseInt $1))))))
 
 (/set
     (if (< (len $args) 3)
         (throw (newRuntimeException "set need at least two args")))
     (if (inf $0 "java.util.List")
-        (.set $0 (int $1) $2)))
+        (.set $0 (parseInt $1) $2)))
 
 (/--
     (ext.fn.Math.sub $0 $1))
@@ -265,13 +259,13 @@
 (/-doMath
      (if (not (def? $0))
          (return 0))
-     (if (not (boolean $1))
+     (if (not (bl $1))
          (return 0))
      (if (< (len $1) 2)
         (return (get $1 0i)))
      (def op $0)
      (def result (get $1 0i))
-     (foreach (subList $1 1i (int (len $1)))
+     (foreach (subList $1 1i (parseInt (len $1)))
          /sum)
      (/sum
          (share result (op (as result) $0)))
@@ -287,10 +281,50 @@
    (-doMath /-~ $args))
 
 
+(/array:class:initSize
+	(as (java.lang.reflect.Array.newInstance class (parseInt initSize))))
+
+(/toFmtStr:obj
+	(lava.util.StringUtil.toFmtString (asObj obj) (array int 0)))	
+	
+(/apply:obj:*fn
+	(foreach fn	
+		(/:sub
+			(share obj (sub obj))))
+	obj)
+	
+(/dataKeys:codeId
+	(def code
+		(.get $codes (asObj codeId)))
+	(def dataList 
+		(apply code
+			(/:code 
+				(.getValue code))
+			(/:dataMap
+				(.getMap dataMap))
+			(/:map
+				(.keySet map))))
+	dataList)
+	
+(/reload:codeId
+	(def dataKeys (dataKeys codeId))
+	(def code
+		(.get $codes (asObj codeId)))
+	(def path (. code 'filePath'))
+	(load path)
+	dataKeys)	
+
+
+
 (export
-/len  /sort /boolean
+/reload /dataKeys
+/array /apply /toFmtStr
+/parseInt
+/get /set
+/+ /- /* /~ 
+/len  /sort /bl
 /newStrBuilder /newRuntimeException
-/eq /boolean
+/eq 
 /getClipboardText  /setClipboardText
 /exit /inf /asObj
 /getDoc /comp /println /time /cal /str

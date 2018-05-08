@@ -1,0 +1,23 @@
+(def true
+    (. 'java.lang.Boolean.TRUE'))
+(def false
+    (. 'java.lang.Boolean.FALSE'))
+(def null)
+(def void (type null))
+(def newLine 
+'
+'
+)
+
+(def Object 'java.lang.Object')
+(def String 'java.lang.String')
+(def Map 'java.util.Map')
+(def List 'java.util.List')
+(def Collection 'java.util.Collection')
+(def System 'java.lang.System')
+(def StringBuilder 'java.lang.StringBuilder')
+
+(export
+true false null void newLine
+Object String Map List Collection StringBuilder System
+)
