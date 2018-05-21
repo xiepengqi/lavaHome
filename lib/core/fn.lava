@@ -6,7 +6,7 @@
 	(.getEngineByName
 		 (new 'javax.script.ScriptEngineManager') "JavaScript"))
 
-(doc 
+(doc
 (/cal:express 
 	(.eval -se express))
 
@@ -125,6 +125,7 @@
 (/getDoc
 	(def docMap {})
 	(/doc:key:*value
+	    'doc for function or text'
 		(if (def? key)
 			(if (def? value)
 				(.put docMap (asObj key)
@@ -296,23 +297,13 @@
 (/dataKeys:codeId
 	(def code
 		(.get $codes (asObj codeId)))
-	(def dataList 
-		(apply code
-			(/:code 
-				(.getValue code))
-			(/:dataMap
-				(.getMap dataMap))
-			(/:map
-				(.keySet map))))
-	dataList)
+	(.getValue code))
 	
 (/reload:codeId
-	(def dataKeys (dataKeys codeId))
 	(def code
 		(.get $codes (asObj codeId)))
-	(def path (. code 'filePath'))
-	(load path)
-	dataKeys)	
+	(def path (. code 'packagePath'))
+	(load path))
 
 
 
