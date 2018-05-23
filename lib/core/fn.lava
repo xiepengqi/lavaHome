@@ -302,8 +302,12 @@
 (/reload:codeId
 	(def code
 		(.get $codes (asObj codeId)))
-	(def path (. code 'packagePath'))
-	(load path))
+	(def packagePath (. code 'packagePath'))
+	(def filePath (. code 'filePath'))
+	(.put $codes
+	    (asObj codeId)
+	    (asObj (new 'lava.core.Code'
+            	        packagePath filePath (as 'java.lang.String' ())))))
 
 
 
