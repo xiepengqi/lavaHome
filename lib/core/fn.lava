@@ -224,15 +224,15 @@
 (/sort:arr
     (if (not (def? arr))
         (return))
-    (for /doI 0 (- (len arr) 2))
-    (/doI:i
-        (for /doJ 0 (- (len arr) (+ i 2)))
-        (/doJ:j
+    (for (/:i
+        (for (/:j
             (if (> (get arr j) (get arr (+ j 1)))
                 (do
                     (def temp (get arr j))
                     (set arr j (get arr (+ j 1)))
-                    (set arr (+ j 1) temp)))))
+                    (set arr (+ j 1) temp)))) 
+			0 (- (len arr) (+ i 2))))
+		0 (- (len arr) 2))
     arr)
 
 (/get
