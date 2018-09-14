@@ -1,0 +1,4 @@
+(use 'core.fn' 'core.const')
+
+(setClipboardText
+	(str (eval (str (getClipboardText)))))

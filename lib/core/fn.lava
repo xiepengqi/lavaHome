@@ -120,6 +120,8 @@
 	(as 'java.lang.Object' obj))	
 
 (/exit:status
+    (if (not (def? status))
+        (def status 0i))
     (java.lang.System.exit status))
 
 (/getDoc
@@ -315,6 +317,8 @@
 	
 (/cls
 	(.waitFor (.start ( .inheritIO (new 'java.lang.ProcessBuilder' (as 'java.util.List' ["cmd" "/c" "cls"])) )))))
+
+
 
 (export
 /cls
