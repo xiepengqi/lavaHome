@@ -321,7 +321,7 @@
 
 
 (export
-/cls
+/cls /not
 /getFileText
 /reload /dataKeys
 /array /apply /toFmtStr
