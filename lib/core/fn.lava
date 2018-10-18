@@ -72,8 +72,8 @@
 	(def time1 (time))
 	(def value)
 	(if (def? args)
-		(share value (sub *args))
-		(share value (sub)))
+		(= value (sub *args))
+		(= value (sub)))
 	
 	(def time2 (time))
 	(println (cal `{time2} - {time1}`))
@@ -94,7 +94,7 @@
 		1 true
 		false))
 		
-(/=:a:b
+(/<>:a:b
 	(? (comp a b)
 		0 true
 		false))		
@@ -159,7 +159,7 @@
 
 (/bl
     (if (def? $0)
-        (if (share? $0 null)
+        (if (=? $0 null)
             false
             (if (inf $0 'java.lang.String')
                 (do
@@ -271,7 +271,7 @@
      (foreach (subList $1 1i (parseInt (len $1)))
          /sum)
      (/sum
-         (share result (op (as result) $0)))
+         (= result (op (as result) $0)))
      result)
 
 (/-
@@ -293,7 +293,7 @@
 (/apply:obj:*fn
 	(foreach fn	
 		(/:sub
-			(share obj (sub obj))))
+			(= obj (sub obj))))
 	obj)
 	
 (/dataKeys:codeId
@@ -336,7 +336,7 @@
 /getDoc /comp /println /time /cal /str
 true false
 /join /print
-/> /< /= />= /<= newLine
+/> /< /<> />= /<= newLine
 doc
 
 )
