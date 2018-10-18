@@ -1,4 +1,7 @@
 (use 'core.fn' 'core.const')
 
+(def text (getClipboardText))
+(def result
+	(toFmtStr (eval `((/ {text}))`)))
 (setClipboardText
-	(str (eval (str (getClipboardText)))))
+	result)
