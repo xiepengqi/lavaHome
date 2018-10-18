@@ -28,7 +28,7 @@
 	
 (doc
 (/print:*strs 
-	(.println -out (str *strs)))
+	(.print -out (str *strs)))
 
 `(print 1 2 'str')
 12str
@@ -318,9 +318,13 @@
 (/cls
 	(.waitFor (.start ( .inheritIO (new 'java.lang.ProcessBuilder' (as 'java.util.List' ["cmd" "/c" "cls"])) )))))
 
-
+(def scanner (new 'java.util.Scanner' (. 'java.lang.System.in')))
+(/nextLine
+	(str (.nextLine scanner))
+)
 
 (export
+/nextLine
 /cls /not
 /getFileText
 /reload /dataKeys
