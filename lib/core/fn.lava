@@ -49,7 +49,7 @@
 	(def sb (new StringBuilder))
 	(foreach objs
 		(/:item
-			(if (and (def? obj) (? (.length sb) 0i false true))
+			(if obj
 				(.append sb	
 					(java.lang.String.valueOf (as Object obj))))
 			(.append sb 
