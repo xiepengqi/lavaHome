@@ -237,18 +237,43 @@
 		0 (- (len arr) 2))
     arr)
 
-(/get
-    (if (def? $1)
-        (if (inf $0 "java.util.Map")
-            (.get $0 (as "java.lang.Object" $1))
-            (if (inf $0 "java.util.List")
-                (.get $0 (parseInt $1))))))
+(/get:obj:key
+    (if (== obj null)
+        (return null))
+    (if (inf obj "java.util.Map")
+        (return (.get obj (as "java.lang.Object" key))))
+    (if (catch
+            (if (inf obj "java.util.List")
+                     (return (.get obj (parseInt (str key))))))
+        (return null)))
 
-(/set
-    (if (< (len $args) 3)
-        (throw (newRuntimeException "set need at least two args")))
-    (if (inf $0 "java.util.List")
-        (.set $0 (parseInt $1) $2)))
+(/set:obj:key:value
+    (if (== obj null)
+        (return null))
+    (= value (as "java.lang.Object" value))
+    (if (inf obj "java.util.List")
+        (.set obj (parseInt key) value))
+    (if (inf obj "java.util.Map")
+        (.put obj (parseInt key) value))
+    obj)
+
+(/add:list:*args
+    (if (or (== list null) (== args null))
+        (return list))
+    (.addAll list (as 'java.util.Collection' args))
+    list)
+
+(/put:map:*args
+    (if (or (== map null) (== args null))
+        (return map))
+    (def index 0)
+    (/doSub:i
+        (= index (+ i 2))
+        (.put map (get args i) (get args (+ i 1))))
+    (for /doSub 0 2 (.size args))
+    (if (not (== (get args index) null))
+        (.put map (get args index) (asObj null)))
+    map)
 
 (/--
     (ext.fn.Math.sub $0 $1))
@@ -324,6 +349,7 @@
 )
 
 (export
+/add /put
 /nextLine
 /cls /not
 /getFileText
