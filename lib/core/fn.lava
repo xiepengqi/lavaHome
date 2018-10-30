@@ -63,8 +63,8 @@
 
 (/not:boolean
 	(if boolean
-		false
-		true))
+		()
+		(and 1)))
 
 (/time:sub:*args
 	(if (not (def? sub))
@@ -91,30 +91,30 @@
 
 (/>:a:b
 	(? (comp a b)
-		1 true
-		false))
+		1 (and 1)
+		()))
 		
 (/<>:a:b
 	(? (comp a b)
-		0 true
-		false))		
+		0 (and 1)
+		()))		
 
 (/<:a:b
 	(? (comp a b)
-		-1 true
-		false))
+		-1 (and 1)
+		()))
 	
 (/<=:a:b
 	(? (comp a b)
-		-1 true
-		0 true
-		false))
+		-1 (and 1)
+		0 (and 1)
+		()))
 		
 (/>=:a:b
 	(? (comp a b)
-		1 true
-		0 true
-		false))
+		1 (and 1)
+		0 (and 1)
+		()))
 	
 (/asObj:obj
 	(as 'java.lang.Object' obj))	
@@ -143,46 +143,24 @@
     return Boolean
 
     '
-    (ext.fn.Inf.inf (as 'java.lang.Object' obj) (as 'java.lang.Object' className)))
+    (.isInstance (type (as className ())) (as 'java.lang.Object' obj)))
 
 
+(/setClipboardText:str
+       "设置系统剪贴板内容"
+       (.setContents (as 'sun.awt.datatransfer.SunClipboard' (.getSystemClipboard (java.awt.Toolkit.getDefaultToolkit)))
+            (as 'java.awt.datatransfer.Transferable' (new 'java.awt.datatransfer.StringSelection' (str str)))
+             (as 'java.awt.datatransfer.ClipboardOwner' ())))
 (/getClipboardText
     "获取系统剪贴板内容"
-    (ext.fn.ClipboardText.getSysClipboardText))
-(/setClipboardText
-       "设置系统剪贴板内容"
-       (ext.fn.ClipboardText.setSysClipboardText $0))
+    (def clipTf
+            (.getContents (.getSystemClipboard (java.awt.Toolkit.getDefaultToolkit)) ()))
+    (if (and clipTf (.isDataFlavorSupported clipTf (. 'java.awt.datatransfer.DataFlavor.stringFlavor')))
+        (.getTransferData clipTf (. 'java.awt.datatransfer.DataFlavor.stringFlavor'))))
 
 (/eq
     (as 'java.lang.Object' $0 $1)
     (.equals $0 $1))
-
-(/bl
-    (if (def? $0)
-        (if (=? $0 null)
-            false
-            (if (inf $0 'java.lang.String')
-                (do
-                    (as 'java.lang.String' $0)
-                    (if (> (.length $0) 0)
-                        true
-                        false))
-                (if (inf $0 'java.util.Collection')
-                    (do
-                        (as 'java.util.Collection' $0)
-                        (if (> (.size $0) 0)
-                             true
-                             false))
-                    (if (inf $0 'java.util.Map')
-                        (do
-                             (as 'java.util.Map' $0)
-                              (if (> (.size $0) 0)
-                                    true
-                                    false))
-                        (if (inf $0 'java.lang.Boolean')
-                            $0
-                            true)))))
-        false))
 
 (/len
     (if (not (def? $0)) (throw (newRuntimeException "can not get len from undefined")))
@@ -238,18 +216,18 @@
     arr)
 
 (/get:obj:key
-    (if (== obj null)
-        (return null))
+    (if (== obj ())
+        (return ()))
     (if (inf obj "java.util.Map")
         (return (.get obj (as "java.lang.Object" key))))
     (if (catch
             (if (inf obj "java.util.List")
                      (return (.get obj (parseInt (str key))))))
-        (return null)))
+        (return ())))
 
 (/set:obj:key:value
-    (if (== obj null)
-        (return null))
+    (if (== obj ())
+        (return ()))
     (= value (as "java.lang.Object" value))
     (if (inf obj "java.util.List")
         (.set obj (parseInt key) value))
@@ -258,36 +236,27 @@
     obj)
 
 (/add:list:*args
-    (if (or (== list null) (== args null))
+    (if (or (== list ()) (== args ()))
         (return list))
     (.addAll list (as 'java.util.Collection' args))
     list)
 
 (/put:map:*args
-    (if (or (== map null) (== args null))
+    (if (or (== map ()) (== args ()))
         (return map))
     (def index 0)
     (/doSub:i
         (= index (+ i 2))
         (.put map (get args i) (get args (+ i 1))))
     (for /doSub 0 2 (.size args))
-    (if (not (== (get args index) null))
-        (.put map (get args index) (asObj null)))
+    (if (not (== (get args index) ()))
+        (.put map (get args index) (asObj ())))
     map)
-
-(/--
-    (ext.fn.Math.sub $0 $1))
-(/-+
-    (ext.fn.Math.add $0 $1))
-(/-*
-    (ext.fn.Math.multiply $0 $1))
-(/-~
-    (ext.fn.Math.divide $0 $1))
 
 (/-doMath
      (if (not (def? $0))
          (return 0))
-     (if (not (bl $1))
+     (if (not $1)
          (return 0))
      (if (< (len $1) 2)
         (return (get $1 0i)))
@@ -358,13 +327,12 @@
 /parseInt
 /get /set
 /+ /- /* /~ 
-/len  /sort /bl
+/len  /sort
 /newStrBuilder /newRuntimeException
 /eq 
 /getClipboardText  /setClipboardText
 /exit /inf /asObj
 /getDoc /comp /println /time /cal /str
-true false
 /join /print
 /> /< /<> />= /<= newLine
 doc

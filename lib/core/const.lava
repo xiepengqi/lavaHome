@@ -1,9 +1,4 @@
-(def true
-    (. 'java.lang.Boolean.TRUE'))
-(def false
-    (. 'java.lang.Boolean.FALSE'))
-(def null)
-(def void (type null))
+
 (def newLine 
 '
 '
@@ -18,6 +13,6 @@
 (def StringBuilder 'java.lang.StringBuilder')
 
 (export
-true false null void newLine
+ newLine
 Object String Map List Collection StringBuilder System
 )
