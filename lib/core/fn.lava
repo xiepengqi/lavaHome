@@ -253,29 +253,35 @@
         (.put map (get args index) (asObj ())))
     map)
 
-(/-doMath
-     (if (not (def? $0))
-         (return 0))
-     (if (not $1)
-         (return 0))
-     (if (< (len $1) 2)
-        (return (get $1 0i)))
-     (def op $0)
-     (def result (get $1 0i))
-     (foreach (subList $1 1i (parseInt (len $1)))
-         /sum)
-     (/sum
-         (= result (op (as result) $0)))
-     result)
+(/doMath:oper:elems
+	(if (not (and oper elems))
+		(throw 'doMath args invalid'))
+	(def result 0)
+	(foreach elems
+		(/:i
+			(= result (oper result i))))
+	result)
 
-(/-
-   (-doMath /-- $args))
-(/+
-   (-doMath /-+ $args))
-(/*
-   (-doMath /-* $args))
-(/~
-   (-doMath /-~ $args))
+(/+:*elems
+	(doMath
+		(/:a:b
+			(str (.add (new 'java.math.BigDecimal' (str a)) (new 'java.math.BigDecimal' (str b))))
+		) elems))
+(/-:*elems
+	(doMath
+		(/:a:b
+			(str (.subtract (new 'java.math.BigDecimal' (str a)) (new 'java.math.BigDecimal' (str b))))
+		) elems))
+(/*:*elems
+	(doMath
+		(/:a:b
+			(str (.multiply (new 'java.math.BigDecimal' (str a)) (new 'java.math.BigDecimal' (str b))))
+		) elems))
+(/~:*elems
+	(doMath
+		(/:a:b
+			(str (.divide (new 'java.math.BigDecimal' (str a)) (new 'java.math.BigDecimal' (str b))))
+		) elems))
 
 
 (/array:class:initSize
