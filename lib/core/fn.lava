@@ -253,10 +253,10 @@
         (.put map (get args index) (asObj ())))
     map)
 
-(/doMath:oper:elems
-	(if (not (and oper elems))
+(/doMath:oper:first:*elems
+	(if (not (and oper first elems))
 		(throw 'doMath args invalid'))
-	(def result 0)
+	(def result first)
 	(foreach elems
 		(/:i
 			(= result (oper result i))))
@@ -266,22 +266,22 @@
 	(doMath
 		(/:a:b
 			(str (.add (new 'java.math.BigDecimal' (str a)) (new 'java.math.BigDecimal' (str b))))
-		) elems))
+		) *elems))
 (/-:*elems
 	(doMath
 		(/:a:b
 			(str (.subtract (new 'java.math.BigDecimal' (str a)) (new 'java.math.BigDecimal' (str b))))
-		) elems))
+		) *elems))
 (/*:*elems
 	(doMath
 		(/:a:b
 			(str (.multiply (new 'java.math.BigDecimal' (str a)) (new 'java.math.BigDecimal' (str b))))
-		) elems))
+		) *elems))
 (/~:*elems
 	(doMath
 		(/:a:b
 			(str (.divide (new 'java.math.BigDecimal' (str a)) (new 'java.math.BigDecimal' (str b))))
-		) elems))
+		) *elems))
 
 
 (/array:class:initSize
