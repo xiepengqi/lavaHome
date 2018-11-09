@@ -158,12 +158,9 @@
     (if (and clipTf (.isDataFlavorSupported clipTf (. 'java.awt.datatransfer.DataFlavor.stringFlavor')))
         (.getTransferData clipTf (. 'java.awt.datatransfer.DataFlavor.stringFlavor'))))
 
-(/eq
-    (as 'java.lang.Object' $0 $1)
-    (.equals $0 $1))
 
 (/len
-    (if (not (def? $0)) (throw (newRuntimeException "can not get len from undefined")))
+    (if (not (def? $0)) (throw  "can not get len from undefined"))
     (if (inf $0 'java.lang.String')
         (do
             (as 'java.lang.String' $0)
@@ -176,19 +173,9 @@
                 (do
                      (as 'java.util.Map' $0)
                      (str (.size $0)))
-                (throw (newRuntimeException "can not get len from this object"))))))
+                (throw  "can not get len from this object")))))
 
 (/do $-1)
-
-(/newStrBuilder
-    (if (def? $0)
-        (new 'java.lang.StringBuilder' $0)
-        (new 'java.lang.StringBuilder')))
-
-(/newRuntimeException
-    (if (def? $0)
-        (new 'java.lang.RuntimeException' $0)
-        (new 'java.lang.RuntimeException')))
 
 (/parseInt
     (if (inf $0 'java.lang.String')
@@ -334,8 +321,6 @@
 /get /set
 /+ /- /* /~ 
 /len  /sort
-/newStrBuilder /newRuntimeException
-/eq 
 /getClipboardText  /setClipboardText
 /exit /inf /asObj
 /getDoc /comp /println /time /cal /str
