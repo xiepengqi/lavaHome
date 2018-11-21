@@ -49,7 +49,7 @@
 	(def sb (new StringBuilder))
 	(foreach objs
 		(/:item
-			(if obj
+			(if (and obj sb)
 				(.append sb	
 					(java.lang.String.valueOf (as Object obj))))
 			(.append sb 
@@ -310,7 +310,14 @@
 (/class:str
     (type (as str '')))
 
+(/map:items:key
+	(def list [])
+	(foreach items
+		(/:i (add list (get i key))))
+	list)
+
 (export
+/map
 /class
 /add /put
 /nextLine
