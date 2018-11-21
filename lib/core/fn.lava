@@ -67,11 +67,11 @@
 		(and 1)))
 
 (/time:sub:*args
-	(if (not (def? sub))
+	(if (not sub)
 		(return (java.lang.System.currentTimeMillis)))
 	(def time1 (time))
 	(def value)
-	(if (def? args)
+	(if args
 		(= value (sub *args))
 		(= value (sub)))
 	
@@ -120,7 +120,7 @@
 	(as 'java.lang.Object' obj))	
 
 (/exit:status
-    (if (not (def? status))
+    (if (not status)
         (def status 0i))
     (java.lang.System.exit status))
 
@@ -128,8 +128,8 @@
 	(def docMap {})
 	(/doc:key:*value
 	    'doc for function or text'
-		(if (def? key)
-			(if (def? value)
+		(if key
+			(if value
 				(.put docMap (asObj key)
 					(asObj (str key newLine (join value newLine))))
 				(.get docMap (asObj key)))
@@ -159,37 +159,34 @@
         (.getTransferData clipTf (. 'java.awt.datatransfer.DataFlavor.stringFlavor'))))
 
 
-(/len
-    (if (not (def? $0)) (throw  "can not get len from undefined"))
-    (if (inf $0 'java.lang.String')
+(/len:obj
+    (if (not obj) (throw  "can not get len from undefined"))
+    (if (inf obj 'java.lang.String')
         (do
-            (as 'java.lang.String' $0)
-            (str (.length $0)))
-        (if (inf $0 'java.util.Collection')
+            (as 'java.lang.String' obj)
+            (str (.length obj)))
+        (if (inf obj 'java.util.Collection')
             (do
-                (as 'java.util.Collection' $0)
-                (str (.size $0)))
-            (if (inf $0 'java.util.Map')
+                (as 'java.util.Collection' obj)
+                (str (.size obj)))
+            (if (inf obj 'java.util.Map')
                 (do
-                     (as 'java.util.Map' $0)
-                     (str (.size $0)))
+                     (as 'java.util.Map' obj)
+                     (str (.size obj)))
                 (throw  "can not get len from this object")))))
 
-(/do $-1)
+(/do (.get $args (parseInt (- (.size $args) 1))))
 
-(/parseInt
-    (if (inf $0 'java.lang.String')
-        (java.lang.Integer.parseInt (as $0))
-        $0))
+(/parseInt:str
+    (if (inf str 'java.lang.String')
+        (java.lang.Integer.parseInt (as str))
+        str))
 
 (/asInt:arg
 	(as 'int' arg))
-		
-(/subList
-    (.subList $0 $1 $2))
 
 (/sort:arr
-    (if (not (def? arr))
+    (if (not arr)
         (return))
     (for (/:i
         (for (/:j
@@ -267,7 +264,7 @@
 (/~:*elems
 	(doMath
 		(/:a:b
-			(str (.divide (new 'java.math.BigDecimal' (str a)) (new 'java.math.BigDecimal' (str b))))
+			(str (.divide (new 'java.math.BigDecimal' (str a)) (new 'java.math.BigDecimal' (str b)) 2i))
 		) *elems))
 
 
@@ -310,7 +307,11 @@
 	(str (.nextLine scanner))
 )
 
+(/class:str
+    (type (as str '')))
+
 (export
+/class
 /add /put
 /nextLine
 /cls /not
