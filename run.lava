@@ -1,4 +1,4 @@
-(use 'core.fn' 'core.const')
+(use 'core.export')
 
 (def text (getClipboardText))
 (def result

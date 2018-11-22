@@ -11,8 +11,13 @@
 (def Collection 'java.util.Collection')
 (def System 'java.lang.System')
 (def StringBuilder 'java.lang.StringBuilder')
+(def File 'java.io.File')
+(def BufferedReader 'java.io.BufferedReader')
+(def BufferedWriter 'java.io.BufferedWriter')
+(def FileReader 'java.io.FileReader')
+(def FileWriter 'java.io.FileWriter')
+(def Reader 'java.io.Reader')
+(def Writer 'java.io.Writer')
 
-(export
- newLine
-Object String Map List Collection StringBuilder System
-)
+
+(export)

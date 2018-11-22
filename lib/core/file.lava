@@ -1,0 +1,23 @@
+(use 'core.export')
+
+(/readText:filePath
+    (def reader (new BufferedReader (as Reader (new FileReader (new File filePath)))))
+    (def sb (new StringBuilder))
+    (def line)
+    (while  (/ (not (== (= line (.readLine reader)) ())))
+        (/ (.append sb line ) (.append sb newLine ) 1))
+    (str sb))
+
+
+(export /readText)
+
+
+
+
+
+
+
+
+
+
+
