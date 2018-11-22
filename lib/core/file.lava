@@ -1,4 +1,5 @@
-(use 'core.export')
+(use 'core.common')
+(use 'core.const')
 
 (/readText:filePath
     (def reader (new BufferedReader (as Reader (new FileReader (new File filePath)))))
