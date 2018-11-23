@@ -7,10 +7,22 @@
     (def line)
     (while  (/ (not (== (= line (.readLine reader)) ())))
         (/ (.append sb line ) (.append sb newLine ) 1))
+    (.close reader)
     (str sb))
 
+(/writeText:filePath:firstStr:*strs
+    (def writer (new BufferedWriter (as Writer (new FileWriter (new File filePath)))))
+    (if firstStr (.write writer firstStr))
+    (foreach strs
+        (/:str
+            (.newLine writer)
+            (.write writer str)
+            1))
+    (.flush writer)
+    (.close writer))
 
-(export /readText)
+
+(export /readText /writeText)
 
 
 
