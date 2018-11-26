@@ -1,5 +1,6 @@
 (use 'core.common')
 (use 'core.const')
 (use 'core.file')
+(use 'core.etc')
 
 (export)

@@ -280,11 +280,6 @@
 			(= obj (sub obj))))
 	obj)
 	
-(/dataKeys:codeId
-	(def code
-		(.get $codes (asObj codeId)))
-	(.getValue code))
-	
 (/reload:codeId
 	(def code
 		(.get $codes (asObj codeId)))
@@ -293,7 +288,11 @@
 	(.put $codes
 	    (asObj codeId)
 	    (asObj (new 'lava.core.Code'
-            	        packagePath filePath (as 'java.lang.String' ())))))
+            	        packagePath filePath (as 'java.lang.String' ()))))
+    (use codeId)
+    (= code
+    		(.get $codes (asObj codeId)))
+    (.getValue code))
 
 
 (/getFileText:filePath
@@ -310,20 +309,41 @@
 (/class:str
     (type (as str '')))
 
-(/map:items:key
+(/map:items:sub
 	(def list [])
 	(foreach items
-		(/:i (add list (get i key))))
+		(/:i (add list (sub i)) 1))
 	list)
 
+(/filter:items:sub
+    (def list [])
+    (foreach items
+    	(/:i (if (sub i) (add list i)) 1))
+    list)
+
+(/etc:sub
+    (def homeUrl)
+    (foreach $urls
+      (/:url if (.contains url (as 'java.lang.CharSequence' 'lavaHome'))
+        (do (= homeUrl url) ()))))
+    (def etc (str homeUrl "/core/etc.lava" ))
+    (def etcCode (get $codes 'core.etc'))
+    (use 'core.file')
+    (writeText etc
+        *(map (filter (.values (.getValue etcCode))
+                  (/:i (if (inf i 'lava.core.Sub') 1 '')))
+              (/:sub (.see sub)))
+        (.see sub)
+        '(export)'))
+
 (export
-/map
+/map /do /etc
 /class
 /add /put
 /nextLine
 /cls /not
 /getFileText
-/reload /dataKeys
+/reload
 /array /apply /toFmtStr
 /parseInt
 /get /set
