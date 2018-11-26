@@ -329,9 +329,11 @@
     (def etc (str homeUrl "/core/etc.lava" ))
     (def etcCode (get $codes 'core.etc'))
     (use 'core.file')
+    (def subs
+        (filter (.values (.getValue etcCode))
+            (/:i (if (and (inf i 'lava.core.Sub') (=? (.getIdName i) (.getIdName sub))) 1 ''))))
     (writeText etc
-        *(map (filter (.values (.getValue etcCode))
-                  (/:i (if (inf i 'lava.core.Sub') 1 '')))
+        *(map subs
               (/:sub (.see sub)))
         (.see sub)
         '(export)'))
