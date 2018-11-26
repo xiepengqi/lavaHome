@@ -325,7 +325,7 @@
     (def homeUrl)
     (foreach $urls
       (/:url if (.contains url (as 'java.lang.CharSequence' 'lavaHome'))
-        (do (= homeUrl url) ()))))
+        (do (= homeUrl url) ())))
     (def etc (str homeUrl "/core/etc.lava" ))
     (def etcCode (get $codes 'core.etc'))
     (use 'core.file')
