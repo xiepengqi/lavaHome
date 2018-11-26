@@ -331,7 +331,7 @@
     (use 'core.file')
     (def subs
         (map (filter (.values (.getValue etcCode))
-            (/:i (if (and (inf i 'lava.core.Sub') (=? (.getIdName i) (.getIdName sub))) 1 '')))
+            (/:i (if (and (inf i 'lava.core.Sub') (not (=? (.getName i) (.getName sub)))) 1 '')))
             (/:sub (.see sub))))
     (writeText etc
         *subs
