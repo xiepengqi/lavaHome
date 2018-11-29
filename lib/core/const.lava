@@ -3,6 +3,11 @@
 '
 '
 )
+(def true
+    (. 'java.lang.Boolean.TRUE'))
+(def false
+    (. 'java.lang.Boolean.FALSE'))
+(def null)
 
 (def Object 'java.lang.Object')
 (def String 'java.lang.String')
