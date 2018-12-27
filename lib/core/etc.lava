@@ -1,3 +1,6 @@
-(/test 23546644444444466)
-(/test1 23546644444444466)
+(/test)
+(/md5Hex:dataStr
+	(use 'core.common')
+	(load 'C:\Users\Administrator.PC-20160819SENW\.gradle\caches\modules-2\files-2.1\commons-codec\commons-codec\1.10\4b95f4897fa13f2cd904aee711aeafc0c5295cd8\commons-codec-1.10.jar')
+	(org.apache.commons.codec.digest.DigestUtils.md5Hex (str dataStr)))
 (export)
