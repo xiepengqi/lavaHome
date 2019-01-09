@@ -160,7 +160,7 @@
 
 
 (/len:obj
-    (if (not obj) (throw  "can not get len from undefined"))
+    (if (not obj) (return 0))
     (if (inf obj 'java.lang.String')
         (do
             (as 'java.lang.String' obj)
@@ -173,7 +173,11 @@
                 (do
                      (as 'java.util.Map' obj)
                      (str (.size obj)))
-                (throw  "can not get len from this object")))))
+                (if (.isArray (.getClass obj))
+                    (do
+                        (as 'java.lang.Object' obj)
+                        (str (java.lang.reflect.Array.getLength obj)))
+                    (throw  "can not get len from this object"))))))
 
 (/do (.get $args (parseInt (- (.size $args) 1))))
 

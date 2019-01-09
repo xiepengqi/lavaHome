@@ -3,4 +3,18 @@
 	(use 'core.common')
 	(load 'C:\Users\Administrator.PC-20160819SENW\.gradle\caches\modules-2\files-2.1\commons-codec\commons-codec\1.10\4b95f4897fa13f2cd904aee711aeafc0c5295cd8\commons-codec-1.10.jar')
 	(org.apache.commons.codec.digest.DigestUtils.md5Hex (str dataStr)))
+(/encode:method:dataStr
+	(use 'core.common')
+	(load 'C:\Users\Administrator.PC-20160819SENW\.gradle\caches\modules-2\files-2.1\commons-codec\commons-codec\1.10\4b95f4897fa13f2cd904aee711aeafc0c5295cd8\commons-codec-1.10.jar')
+	((str 'org.apache.commons.codec.digest.DigestUtils.' method) (str dataStr)))
+(/parseQueryStr:queryStr
+	(use 'core.common')
+	(def map {})
+	(if (not queryStr) (return map))
+	(/eachElem:elem
+		(def pair (.split (str elem) '='))
+		(if (> (len pair) 1) (put map *pair))
+		1)
+	(foreach (.split (str queryStr) '&') /eachElem)
+	map)
 (export)
