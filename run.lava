@@ -1,7 +1,11 @@
 (use 'core.export')
 
-(def text (getClipboardText))
-(def result
-	(toFmtStr (eval `((/ {text}))`)))
-(setClipboardText
-	result)
+(def e
+	(catch (do
+		(def text (getClipboardText))
+		(def result
+			(toFmtStr (eval `((/ {text}))`)))
+		(setClipboardText
+			result))))
+
+(setClipboardText (str e))

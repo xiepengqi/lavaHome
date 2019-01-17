@@ -1,12 +1,4 @@
 (/test)
-(/md5Hex:dataStr
-	(use 'core.common')
-	(load 'C:\Users\Administrator.PC-20160819SENW\.gradle\caches\modules-2\files-2.1\commons-codec\commons-codec\1.10\4b95f4897fa13f2cd904aee711aeafc0c5295cd8\commons-codec-1.10.jar')
-	(org.apache.commons.codec.digest.DigestUtils.md5Hex (str dataStr)))
-(/encode:method:dataStr
-	(use 'core.common')
-	(load 'C:\Users\Administrator.PC-20160819SENW\.gradle\caches\modules-2\files-2.1\commons-codec\commons-codec\1.10\4b95f4897fa13f2cd904aee711aeafc0c5295cd8\commons-codec-1.10.jar')
-	((str 'org.apache.commons.codec.digest.DigestUtils.' method) (str dataStr)))
 (/parseQueryStr:queryStr
 	(use 'core.common')
 	(def map {})
@@ -17,4 +9,17 @@
 		1)
 	(foreach (.split (str queryStr) '&') /eachElem)
 	map)
+(/md5Hex:dataStr
+	(use 'core.common')
+	(load 'C:\Users\Administrator.PC-20160819SENW\.gradle\caches\modules-2\files-2.1\commons-codec\commons-codec\1.10\4b95f4897fa13f2cd904aee711aeafc0c5295cd8\commons-codec-1.10.jar')
+	(org.apache.commons.codec.digest.DigestUtils.md5Hex (str dataStr)))
+(/sha1Hex:dataStr
+	(use 'core.common')
+	(load 'C:\Users\Administrator.PC-20160819SENW\.gradle\caches\modules-2\files-2.1\commons-codec\commons-codec\1.10\4b95f4897fa13f2cd904aee711aeafc0c5295cd8\commons-codec-1.10.jar')
+	(org.apache.commons.codec.digest.DigestUtils.sha1Hex (str dataStr)))
+(/e:*cmds
+	(use 'core.common')
+	(def list ["cmd" "/c"])
+	(add list *cmds)
+	(.waitFor (.start ( .inheritIO (new 'java.lang.ProcessBuilder' (as 'java.util.List' list)) ))))
 (export)
