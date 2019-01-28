@@ -1,3 +1,7 @@
+(/sm
+	(use 'core.file')
+	(def mainPath "D:\xpq\tasklist\tasklist_bat.main")
+	(readText mainPath))
 (/test)
 (/parseQueryStr:queryStr
 	(use 'core.common')
@@ -9,17 +13,23 @@
 		1)
 	(foreach (.split (str queryStr) '&') /eachElem)
 	map)
-(/md5Hex:dataStr
-	(use 'core.common')
-	(load 'C:\Users\Administrator.PC-20160819SENW\.gradle\caches\modules-2\files-2.1\commons-codec\commons-codec\1.10\4b95f4897fa13f2cd904aee711aeafc0c5295cd8\commons-codec-1.10.jar')
-	(org.apache.commons.codec.digest.DigestUtils.md5Hex (str dataStr)))
 (/sha1Hex:dataStr
 	(use 'core.common')
 	(load 'C:\Users\Administrator.PC-20160819SENW\.gradle\caches\modules-2\files-2.1\commons-codec\commons-codec\1.10\4b95f4897fa13f2cd904aee711aeafc0c5295cd8\commons-codec-1.10.jar')
 	(org.apache.commons.codec.digest.DigestUtils.sha1Hex (str dataStr)))
+(/md5Hex:dataStr
+	(use 'core.common')
+	(load 'C:\Users\Administrator.PC-20160819SENW\.gradle\caches\modules-2\files-2.1\commons-codec\commons-codec\1.10\4b95f4897fa13f2cd904aee711aeafc0c5295cd8\commons-codec-1.10.jar')
+	(org.apache.commons.codec.digest.DigestUtils.md5Hex (str dataStr)))
+(/see:codeId
+	(use 'core.common')
+	(.see (get $codes codeId)))
 (/e:*cmds
 	(use 'core.common')
 	(def list ["cmd" "/c"])
 	(add list *cmds)
 	(.waitFor (.start ( .inheritIO (new 'java.lang.ProcessBuilder' (as 'java.util.List' list)) ))))
+(/look:codeId
+	(use 'core.common')
+	(. (get $codes codeId) value))
 (export)
