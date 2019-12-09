@@ -23,6 +23,6 @@
 (def FileWriter 'java.io.FileWriter')
 (def Reader 'java.io.Reader')
 (def Writer 'java.io.Writer')
-
+(def BigDecimal java.math.BigDecimal)
 
 (export)

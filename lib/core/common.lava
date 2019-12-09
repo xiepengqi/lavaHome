@@ -342,6 +342,12 @@
         (.see sub)
         '(export)'))
 
+(/isNum:numStr
+    (if (catch (new BigDecimal numStr)) false true))
+
+(/rm:list:index
+    (.remove list (parseInt index)))
+
 (export
 /map /do /etc
 /class
@@ -361,7 +367,7 @@
 /join /print
 /> /< /<> />= /<= newLine
 doc
-
+/isNum /rm
 )
 
 

@@ -1,0 +1,19 @@
+(use core.export)
+
+(def s "barfoothefoobarman")
+(def words [1 2 3 4])
+
+(def result [
+    {"prefix" ""
+    "list" words}
+])
+
+(/test:prefix:list
+    (println prefix )
+)
+
+(foreach result (/:item
+    (println result)
+    (test *item)
+    true))
+

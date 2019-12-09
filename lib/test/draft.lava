@@ -1,0 +1,10 @@
+(use core.export)
+
+(def txt (readText '/Users/xiepengqi/IdeaProjects/lavaHome/.gitignore'))
+
+(foreach (.split txt '\n') (/:str
+    (println str)
+
+    true
+))
+
