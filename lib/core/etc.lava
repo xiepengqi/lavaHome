@@ -21,9 +21,14 @@
 	(use 'core.common')
 	(load 'C:\Users\Administrator.PC-20160819SENW\.gradle\caches\modules-2\files-2.1\commons-codec\commons-codec\1.10\4b95f4897fa13f2cd904aee711aeafc0c5295cd8\commons-codec-1.10.jar')
 	(org.apache.commons.codec.digest.DigestUtils.md5Hex (str dataStr)))
-(/see:codeId
+(/see:staff
 	(use 'core.common')
-	(.see (get $codes codeId)))
+	(use 'core.const')
+	(if (and (inf staff String)
+	        (.containsKey $codes (as Object staff))) (.see (get $codes staff))
+	    (or (inf staff 'lava.core.Form')
+	         (inf staff 'lava.core.Code')
+	         (inf staff 'lava.core.Sub')) (.see staff)))
 (/e:*cmds
 	(use 'core.common')
 	(def list ["cmd" "/c"])

@@ -2,5 +2,6 @@
 (use 'core.const')
 (use 'core.file')
 (use 'core.etc')
+(use 'core.http')
 
 (export)

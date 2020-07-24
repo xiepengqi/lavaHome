@@ -1,0 +1,17 @@
+(use core.const core.common)
+
+(load /Users/xiepengqi/.m2/repository/org/springframework/spring-web/5.1.8.RELEASE/spring-web-5.1.8.RELEASE.jar
+    /Users/xiepengqi/.m2/repository/org/springframework/spring-core/5.1.8.RELEASE/spring-core-5.1.8.RELEASE.jar
+    /Users/xiepengqi/.m2/repository/org/springframework/spring-jcl/5.1.8.RELEASE/spring-jcl-5.1.8.RELEASE.jar)
+
+(def RestTemplate 'org.springframework.web.client.RestTemplate')
+
+(def http (new RestTemplate))
+
+(/httpGet:url
+    (.getForEntity http
+            url
+            (class String)
+            (array (class Object) 0)))
+
+(export /httpGet)
